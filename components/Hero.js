@@ -4,7 +4,10 @@ import MyBtn from "./MyButton";
 
 const Hero = () => {
   return (
-    <div className="flex flex-col md:flex-row justify-center my-5 md:my-8">
+    <div
+      id="home"
+      className="flex flex-col md:flex-row justify-center my-5 md:my-8"
+    >
       <div className="flex flex-col my-auto md:w-2/3">
         <div className="flex flex-col">
           <h1 className="font-extrabold text-4xl md:text-6xl">
