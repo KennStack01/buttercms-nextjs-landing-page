@@ -1,8 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import MyBtn from "./MyButton";
+import Butter from "buttercms";
+
+const butter = Butter(`${process.env.NEXT_PUBLIC_BUTTER_CMS_API_KEY}`);
 
 const Hero = () => {
+  const [hero, setHero] = useState({});
+
+  const params = {
+    page: "1",
+    page_size: "10",
+  };
+
+  useEffect(() => {
+    butter.content
+      .retrieve(["hero_section"], params)
+      .then(function (resp) {
+        // console.log(resp.data.data.hero_section[0]);
+        setHero(resp.data.data.hero_section[0]);
+      })
+      .catch(function (resp) {
+        console.log(resp);
+      });
+  }, []);
+
   return (
     <div
       id="home"
@@ -11,22 +33,20 @@ const Hero = () => {
       <div className="flex flex-col my-auto md:w-2/3">
         <div className="flex flex-col">
           <h1 className="font-extrabold text-4xl md:text-6xl">
-            Bridge between companies and recruiters
+            {hero?.great_title}
           </h1>
           <p className="text-sm mx-auto w-2/3 font-light md:text-md my-2 md:my-6">
-            Discover the world's #1 ranked talent acquisition experts with more
-            than 10 years of experience in various indutries
+            {hero?.description}
           </p>
         </div>
         <div className="mx-auto hover:cursor-pointer">
-          <MyBtn textContent="Discover Now" />
+          <MyBtn textContent={hero?.call_to_action_text} />
         </div>
       </div>
-      <Image
-        src={"/hero.svg"}
+      <img
+        src={hero?.hero_image}
         alt="hero image"
-        width="600px"
-        height="60px"
+        loading="lazy"
         className="invisible md:visible my-auto md:w-2/3"
       />
     </div>
