@@ -1,34 +1,38 @@
-import React from "react";
-import Image from "next/image";
+import React, { useEffect, useState } from "react";
+import Butter from "buttercms";
+
+const butter = Butter(`${process.env.NEXT_PUBLIC_BUTTER_CMS_API_KEY}`);
 
 const Goal = () => {
+  const [goal, setGoal] = useState({});
+
+  const params = {
+    page: "1",
+    page_size: "10",
+  };
+
+  useEffect(() => {
+    butter.content
+      .retrieve(["goal"], params)
+      .then(function (resp) {
+        // console.log(resp.data.data.goal[0]);
+        setGoal(resp.data.data.goal[0]);
+      })
+      .catch(function (resp) {
+        console.log(resp);
+      });
+  }, []);
+
   return (
     <div className="bg-gray-100/50 rounded-sm my-10 py-0 md:px-6 flex flex-col md:flex-row justify-between">
-      <div className="md:hidden mx-auto flex my-auto">
-        <Image
-          src={"/goal.svg"}
-          alt="goal image"
-          width="600px"
-          height="300px"
-          className=""
-        />
-      </div>
-      <div className="hidden mx-auto md:flex my-auto">
-        <Image
-          src={"/goal.svg"}
-          alt="goal image"
-          width="600px"
-          height="400px"
-          className="md:w-2/3"
-        />
-      </div>
+      <img src={goal?.goal_image} alt="goal img" className="md:w-2/4 my-auto" />
 
       <div className="flex flex-col justify-center my-auto p-6 md:w-3/5">
         <h5 className="text-gray-600 text-md md:my-4 font-semibold">
-          LET'S ACHIEVE MORE
+          {goal?.text}
         </h5>
         <h3 className="font-bold text-2xl md:text-4xl my-4">
-          Get the benefits of working with Experts
+          {goal?.great_description}
         </h3>
       </div>
     </div>
