@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import MyBtn from "./MyButton";
 import Butter from "buttercms";
 
@@ -8,17 +7,12 @@ const butter = Butter(`${process.env.NEXT_PUBLIC_BUTTER_CMS_API_KEY}`);
 const Hero = () => {
   const [hero, setHero] = useState({});
 
-  const params = {
-    page: "1",
-    page_size: "10",
-  };
-
   useEffect(() => {
-    butter.content
-      .retrieve(["hero_section"], params)
+    butter.page
+      .retrieve("*", "home-page")
       .then(function (resp) {
-        // console.log(resp.data.data.hero_section[0]);
-        setHero(resp.data.data.hero_section[0]);
+        // console.log(resp.data.data.fields.hero_section);
+        setHero(resp.data.data.fields.hero_section);
       })
       .catch(function (resp) {
         console.log(resp);

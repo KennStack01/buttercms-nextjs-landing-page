@@ -6,17 +6,12 @@ const butter = Butter(`${process.env.NEXT_PUBLIC_BUTTER_CMS_API_KEY}`);
 const Goal = () => {
   const [goal, setGoal] = useState({});
 
-  const params = {
-    page: "1",
-    page_size: "10",
-  };
-
   useEffect(() => {
-    butter.content
-      .retrieve(["goal"], params)
+    butter.page
+      .retrieve("*", "home-page")
       .then(function (resp) {
-        // console.log(resp.data.data.goal[0]);
-        setGoal(resp.data.data.goal[0]);
+        console.log(resp.data.data.fields.goal);
+        setGoal(resp.data.data.fields.goal);
       })
       .catch(function (resp) {
         console.log(resp);

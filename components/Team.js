@@ -15,7 +15,7 @@ const Team = () => {
     butter.content
       .retrieve(["team_member"], params)
       .then(function (resp) {
-        console.log(resp.data.data.team_member);
+        // console.log(resp.data.data.team_member);
         setMembers(resp.data.data.team_member);
       })
       .catch(function (resp) {
